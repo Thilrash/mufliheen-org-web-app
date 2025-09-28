@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "Angular PR Build Report"
           to: "ameenthilrash@gmail.com"
-          from: "Mufliheen GitHub - Developer"
+          from: "Developer Mulfiheen.org"
           content_type: text/plain
           attachments: build-report.md
           body: |
@@ -52,5 +52,5 @@ jobs:
             Please find the build documentation attached.
 
             Regards,
-            Mufliheen Developer
+            Developer at Mufliheen.org
 
