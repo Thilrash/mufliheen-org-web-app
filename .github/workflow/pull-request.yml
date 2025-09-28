@@ -1,0 +1,56 @@
+name: Build Mufliheen Client & Server App
+
+on:
+  pull_request: # Runs on PRs to any branch
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.JS
+        uses: action/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install Angular Dependencies
+        run: npm install
+        working-directory: ./mufliheen-client
+
+      - name: Build Angular Client App
+        run: npm run build
+        working-directory: ./mufliheen-client
+
+      - name: Documentation Build
+        run: |
+          echo "# Angular Build Report" > build-report.md
+          echo "Pull Request Number: ${{ github.event.pull_request.number }}" >> build-report.md
+          echo "Branch: ${{ github.head_ref }}" >> build-report.md
+          echo "Commit: ${{ github.sha }}" >> build-report.md
+          echo "Build Status: ✅ Successful" >> build-report.md
+          echo "Date: $(date)" >> build-report.md
+
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: mail.mufliheen.org
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Angular PR Build Report"
+          to: "ameenthilrash@gmail.com"
+          from: "Mufliheen GitHub - Developer"
+          content_type: text/plain
+          attachments: build-report.md
+          body: |
+            Dear Team,
+
+            A new Angular PR build was triggered.
+            Please find the build documentation attached.
+
+            Regards,
+            Mufliheen Developer
+
