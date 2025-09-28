@@ -1,4 +1,4 @@
-name: Build Mufliheen Client & Server App
+name: Build Mufliheen.Org Client & Server App
 
 on:
   pull_request: # Runs on PRs to any branch
